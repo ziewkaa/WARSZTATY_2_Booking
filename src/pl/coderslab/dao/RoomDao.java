@@ -12,14 +12,16 @@ import java.util.List;
 
 public class RoomDao {
 
-    private static final String CREATE_ROOM_QUERY = "INSERT INTO Rooms(id, space, description, price) VALUES (?,?,?,?)";
+    private static final String CREATE_ROOM_QUERY = "INSERT INTO Rooms(space, description, price) VALUES (?,?,?)";
+    private static final String ADD_ROOM_TO_HOTEL_QUERY = "UPDATE Rooms SET hotel_id = ? WHERE id = ?";
     private static final String READ_ROOM_QUERY = "SELECT * FROM Rooms where id = ?";
     private static final String UPDATE_ROOM_QUERY = "UPDATE Rooms SET space = ? , description = ?, price = ? WHERE id = ?";
     private static final String DELETE_ROOM_QUERY = "DELETE FROM Rooms WHERE id = ?";
     private static final String FIND_ALL_ROOMS_QUERY = "SELECT * FROM Rooms";
 
 
-    public void create( int space, String description, double price) {
+
+    static public void create( int space, String description, double price) {
 
         try (Connection connection = DbUtil.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(CREATE_ROOM_QUERY);
@@ -32,7 +34,19 @@ public class RoomDao {
         }
     }
 
-    public Room read(int id) {
+    static public void addToHotel(int hotel_id, int id) {
+
+        try (Connection connection = DbUtil.getConnection()) {
+            PreparedStatement statement = connection.prepareStatement(ADD_ROOM_TO_HOTEL_QUERY);
+            statement.setInt(1, hotel_id);
+            statement.setInt(2, id);
+            statement.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    static public Room read(int id) {
 
         Room room = new Room();
         try (Connection connection = DbUtil.getConnection()) {
@@ -44,6 +58,7 @@ public class RoomDao {
                 room.setSpace(resultSet.getInt("space"));
                 room.setDescription(resultSet.getString("description"));
                 room.setPrice(resultSet.getDouble("price"));
+                room.setHotelId(resultSet.getInt("hotel_id"));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -51,7 +66,7 @@ public class RoomDao {
         return room;
     }
 
-    public List<Room> readAllRooms() {
+    static public List<Room> readAllRooms() {
 
         List<Room> allRooms = new ArrayList<>();
         Room room = new Room();
@@ -61,8 +76,9 @@ public class RoomDao {
             while (resultSet.next()) {
                 room.setId(resultSet.getInt("id"));
                 room.setSpace(resultSet.getInt("space"));
-                room.setDescription(resultSet.getString("descritpion"));
+                room.setDescription(resultSet.getString("description"));
                 room.setPrice(resultSet.getDouble("price"));
+                room.setHotelId(resultSet.getInt("hotel_id"));
                 allRooms.add(room);
             }
         } catch (Exception e) {
@@ -71,7 +87,7 @@ public class RoomDao {
         return allRooms;
     }
 
-    public void update(Room room) {
+    static public void update(Room room) {
 
         try (Connection connection = DbUtil.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(UPDATE_ROOM_QUERY);
@@ -86,7 +102,7 @@ public class RoomDao {
 
     }
 
-    public void delete(Integer id) {
+    static public void delete(int id) {
 
         try (Connection connection = DbUtil.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(DELETE_ROOM_QUERY);
