@@ -5,27 +5,24 @@ public class Hotel {
     private int id;
     private String name;
     private String address;
-    private int number;
-    private boolean animals;
+    private String number;
+    private int animals;
     private String description;
-    private int rooms;
 
-    public Hotel(int id, String name, String address, int number, boolean animals, String description, int rooms) {
+    public Hotel(int id, String name, String address, String number, int animals, String description) {
         this.id = id;
         this.name = name;
         this.address = address;
         this.number = number;
         this.animals = animals;
         this.description = description;
-        this.rooms = rooms;
     }
-    public Hotel(String name, String address, int number, boolean animals, String description, int rooms) {
+    public Hotel(String name, String address, String number, int animals, String description) {
         this.name = name;
         this.address = address;
         this.number = number;
         this.animals = animals;
         this.description = description;
-        this.rooms = rooms;
     }
 
     public Hotel(){};
@@ -54,19 +51,19 @@ public class Hotel {
         this.address = address;
     }
 
-    public int getNumber() {
+    public String getNumber() {
         return number;
     }
 
-    public void setNumber(int number) {
+    public void setNumber(String number) {
         this.number = number;
     }
 
-    public boolean getAnimals() {
+    public int getAnimals() {
         return animals;
     }
 
-    public void setAnimals(boolean animals) {
+    public void setAnimals(int animals) {
         this.animals = animals;
     }
 
@@ -78,11 +75,4 @@ public class Hotel {
         this.description = description;
     }
 
-    public int getRooms() {
-        return rooms;
-    }
-
-    public void setRooms(int rooms) {
-        this.rooms = rooms;
-    }
 }

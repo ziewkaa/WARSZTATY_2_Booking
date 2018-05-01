@@ -6,18 +6,21 @@ public class Room {
     private int space;
     private String description;
     private double price;
+    private int hotel_id;
 
-    public Room(int id, int space, String description, double price) {
+    public Room(int id, int space, String description, double price, int hotel_id) {
         this.id = id;
         this.space = space;
         this.description = description;
         this.price = price;
+        this.hotel_id = hotel_id;
     }
 
-    public Room(int space, String description, double price) {
+    public Room(int space, String description, double price, int hotel_id) {
         this.space = space;
         this.description = description;
         this.price = price;
+        this.hotel_id = hotel_id;
     }
 
     public Room(){};
@@ -52,5 +55,13 @@ public class Room {
 
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    public int getHotelId() {
+        return hotel_id;
+    }
+
+    public void setHotelId(int hotel_id) {
+        this.hotel_id = hotel_id;
     }
 }
